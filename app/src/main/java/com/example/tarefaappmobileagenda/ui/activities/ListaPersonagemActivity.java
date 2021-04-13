@@ -21,14 +21,19 @@ import java.util.List;
 
 public class ListaPersonagemActivity extends AppCompatActivity { // Codigo para selecionar o personagem desejado.
 
+    private final PersonagemDAO dao = new PersonagemDAO();
+
+    //override para lista de personagens.
     @Override
     protected  void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_personagem);
         setTitle("Lista de Personagens");
+        dao.salva(new Personagem("ken", "1,80","02041979"));
+        dao.salva(new Personagem("ryu", "1,80","02041979"));
 
 
-
+        //array
         //List<String> personagem = new ArrayList<>(Arrays.asList("Alex", "Ken", "Ryu", "Guile"));
 
      FloatingActionButton botaoNovoPersonagem = findViewById(R.id.fab_add);
@@ -52,21 +57,22 @@ public class ListaPersonagemActivity extends AppCompatActivity { // Codigo para 
     }
 
     @Override
-    protected void onResume() {             //salva os dados digitados no aplicativo.
+    protected void onResume() {             //salva os dados digitados no aplicativo para nao serem apagados.
         super.onResume();
-
-        PersonagemDAO dao = new PersonagemDAO();
+        // declarando o index dao para utiliza-lo.
+        //PersonagemDAO dao = new PersonagemDAO();
 
         ListView listaDePersonagens = findViewById(R.id.activity_main_list_personagem); //Lista de personagens.
-        List<Personagem> personagens = dao.todos(); // resgatar a informaçao.
+        List<Personagem> personagens = dao.todos(); // armazena a informaçao do personagens.
         listaDePersonagens.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, personagens));
 
         listaDePersonagens.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long id) { //define a posiçao do objeto desejado.
+            public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long id) { //Faz uma meio de entrada com os dados digitados
                 Personagem personagemEscolhido = personagens.get(posicao);
                 //Log.i("personagem","" + personagemEscolhido);
                 Intent vaiParaFormulario = new Intent(ListaPersonagemActivity.this, FormularioPersonagemActivity.class);
+                vaiParaFormulario.putExtra("personagem", personagemEscolhido);
                 startActivity(vaiParaFormulario);
 
             }
