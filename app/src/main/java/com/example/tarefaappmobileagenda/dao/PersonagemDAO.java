@@ -8,9 +8,9 @@ import java.util.List;
 public class PersonagemDAO {
 
     private final static List<Personagem> personagens = new ArrayList<>();
-    private static  int contadorDeId = 1;
+    private static  int contadorDeId = 1; // acrescenta quando é necessario salvar.
 
-
+    //salva informacoes dentro de uma base de dados
     public void salva(Personagem personagemSalvo) {
 
         personagemSalvo.setId(contadorDeId);
@@ -18,7 +18,7 @@ public class PersonagemDAO {
         contadorDeId++;
 
     }
-
+    //possibilita editar o campo escolhido.
     public void editar(Personagem personagem){
         Personagem personagemEscolhido = null;
         for (Personagem p :
@@ -27,17 +27,14 @@ public class PersonagemDAO {
                 personagemEscolhido = p;
             }
         }
-        if (personagemEscolhido != null) {
+        if (personagemEscolhido != null){
             int posicaoDoPersonagem = personagens.indexOf(personagemEscolhido);
             personagens.set(posicaoDoPersonagem, personagem);
         }
 
     }
-
-    public List<Personagem> todos(){       //metodo de retorno.
-
-        return new ArrayList<>(personagens);
-    }
+    //busca todas as informaçoes salvas dentro da lista.
+    public List<Personagem> todos(){ return new ArrayList<>(personagens);} //metodo de retorno.
 
 
 }

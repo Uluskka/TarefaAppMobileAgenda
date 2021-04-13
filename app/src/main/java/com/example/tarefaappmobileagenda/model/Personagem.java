@@ -18,6 +18,10 @@ public class Personagem implements Serializable {
         this.nascimento = nascimento;
     }
 
+    public Personagem(){
+
+    }
+
     public String getNome() {
         return nome;
     }
@@ -45,19 +49,11 @@ public class Personagem implements Serializable {
     // converte o nome para string para exibiçao.
     @NonNull
     @Override
-    public  String toString(){ //retorna a string nome para o aplicativo.
-        return nome;
+    public  String toString(){ return nome; }       //retorna a string nome para o aplicativo.
 
-    }
+    public void setId(int id){ this.id = id;}       //posicionamento na localizaçao da lista.
 
-
-    public void setId(int id){
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
+    public int getId(){ return id; }
 
 
 }
