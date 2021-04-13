@@ -2,7 +2,9 @@ package com.example.tarefaappmobileagenda.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -10,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tarefaappmobileagenda.R;
 import com.example.tarefaappmobileagenda.dao.PersonagemDAO;
+import com.example.tarefaappmobileagenda.model.Personagem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -24,7 +27,7 @@ public class ListaPersonagemActivity extends AppCompatActivity { // Codigo para 
         setContentView(R.layout.activity_lista_personagem);
         setTitle("Lista de Personagens");
 
-        PersonagemDAO dao = new PersonagemDAO();
+
 
         //List<String> personagem = new ArrayList<>(Arrays.asList("Alex", "Ken", "Ryu", "Guile"));
 
@@ -37,10 +40,6 @@ public class ListaPersonagemActivity extends AppCompatActivity { // Codigo para 
      });
 
 
-
-        ListView listaDePersonagens = findViewById(R.id.activity_main_list_personagem); //Lista de personagens.
-        listaDePersonagens.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dao.todos()));
-
 /*
         TextView primeiroPersonagem = findViewById(R.id.textView);
         TextView segundoPersonagem = findViewById(R.id.textView2);
@@ -51,4 +50,28 @@ public class ListaPersonagemActivity extends AppCompatActivity { // Codigo para 
 */
 
     }
+
+    @Override
+    protected void onResume() {             //salva os dados digitados no aplicativo.
+        super.onResume();
+
+        PersonagemDAO dao = new PersonagemDAO();
+
+        ListView listaDePersonagens = findViewById(R.id.activity_main_list_personagem); //Lista de personagens.
+        List<Personagem> personagens = dao.todos(); // resgatar a informaçao.
+        listaDePersonagens.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, personagens));
+
+        listaDePersonagens.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long id) { //define a posiçao do objeto desejado.
+                Personagem personagemEscolhido = personagens.get(posicao);
+                //Log.i("personagem","" + personagemEscolhido);
+                Intent vaiParaFormulario = new Intent(ListaPersonagemActivity.this, FormularioPersonagemActivity.class);
+                startActivity(vaiParaFormulario);
+
+            }
+        });
+
+    }
+
 }
