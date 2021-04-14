@@ -8,33 +8,44 @@ import java.util.List;
 public class PersonagemDAO {
 
     private final static List<Personagem> personagens = new ArrayList<>();
-    private static  int contadorDeId = 1; // acrescenta quando é necessario salvar.
+    private static int contadorDeId = 1; // acrescenta quando é necessario salvar.
 
     //salva informacoes dentro de uma base de dados
     public void salva(Personagem personagemSalvo) {
-
         personagemSalvo.setId(contadorDeId);
-        personagens.add(personagemSalvo);
-        contadorDeId++;
+        personagens.add(personagemSalvo);   //add personagens
+        atulizaId();
 
     }
+
+    private void atulizaId() {
+        contadorDeId++;
+    }
+
     //possibilita editar o campo escolhido.
-    public void editar(Personagem personagem){
-        Personagem personagemEscolhido = null;
-        for (Personagem p :
-                personagens) {
-            if (p.getId() == personagem.getId()){
-                personagemEscolhido = p;
-            }
-        }
-        if (personagemEscolhido != null){
-            int posicaoDoPersonagem = personagens.indexOf(personagemEscolhido);
+    public void editar(Personagem personagem) {
+        Personagem personagemEscolhido = buscaPersonagemId(personagem);
+        if (personagemEscolhido != null) {
+            int posicaoDoPersonagem = personagens.indexOf(personagemEscolhido); //coloca na posicao ideal.
             personagens.set(posicaoDoPersonagem, personagem);
         }
 
     }
+
+    private Personagem buscaPersonagemId(Personagem personagem) {
+        for (Personagem p :
+                personagens) {
+            if (p.getId() == personagem.getId()) {
+                return p;         //armazena informaçoes.
+            }
+        }
+        return null;
+    }
+
     //busca todas as informaçoes salvas dentro da lista.
-    public List<Personagem> todos(){ return new ArrayList<>(personagens);} //metodo de retorno.
+    public List<Personagem> todos() {
+        return new ArrayList<>(personagens);
+    } //metodo de retorno.
 
 
 }

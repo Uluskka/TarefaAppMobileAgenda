@@ -6,10 +6,11 @@ import java.io.Serializable;
 
 public class Personagem implements Serializable {
 // constructor feito para chamar as variaveis.
-    private  String nome;
-    private  String altura;
-    private  String nascimento;
-    private  int id = 0;
+
+    private String nome;
+    private String altura;
+    private String nascimento;
+    private int id = 0;
 
     public Personagem(String nome, String altura, String nascimento) { //variaveis usadas no aplicativo.
         // indica elas
@@ -18,7 +19,7 @@ public class Personagem implements Serializable {
         this.nascimento = nascimento;
     }
 
-    public Personagem(){
+    public Personagem() {
 
     }
 
@@ -49,14 +50,34 @@ public class Personagem implements Serializable {
     // converte o nome para string para exibiçao.
     @NonNull
     @Override
-    public  String toString(){ return nome; }       //retorna a string nome para o aplicativo.
+    public String toString() {
+        return nome;
+    }       //retorna a string nome para o aplicativo.
 
-    public void setId(int id){ this.id = id;}       //posicionamento na localizaçao da lista.
+    public void setId(int id) {
+        this.id = id;
+    }       //posicionamento na localizaçao da lista.
 
-    public int getId(){ return id; }
+    public int getId() {
+        return id;
+    }
 
+    {
+
+    }
+
+    public boolean IdValido() {
+
+        return  id > 0;
+    }
+
+    //public boolean IdValido(){ return id> 0;
 
 }
+
+
+
+
 
 
 

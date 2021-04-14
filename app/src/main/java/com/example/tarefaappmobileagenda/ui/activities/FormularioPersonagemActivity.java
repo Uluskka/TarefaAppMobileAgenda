@@ -12,13 +12,18 @@ import com.example.tarefaappmobileagenda.R;
 import com.example.tarefaappmobileagenda.dao.PersonagemDAO;
 import com.example.tarefaappmobileagenda.model.Personagem;
 
+import static com.example.tarefaappmobileagenda.ui.activities.ConstantesActivities.CHAVE_PERSONAGEM;
+
 public class FormularioPersonagemActivity extends AppCompatActivity {
 
+
+    public static final String TITULO_APPBAR_EDITAR_PERSONAGEM = "Editar Personagens";
+    public static final String TITULO_APPBAR_NOVO_PERSONAGEM = "Novo Personagens";
     private EditText campoNome;
     private EditText campoAltura;
     private EditText campoNascimento;
-    private  final PersonagemDAO dao = new PersonagemDAO();
-    private Personagem Personagem;
+    private final PersonagemDAO dao = new PersonagemDAO();
+    private Personagem personagem;
 
 
     @Override
@@ -26,48 +31,40 @@ public class FormularioPersonagemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_personagem);
         //indica o titulo.
-        setTitle("Formulario de Personagens");
-        inicializacaoCampos();
+        inicializacaoCampos(); // possibilita editar textos.
+        configBotao(); //Configura o botao .
+        carregaPersonagem(); // carrega o personagem digitado.
 
+    }
 
-        configBotao();
-
-
+    private void carregaPersonagem() {
         //puxa as informacoes dentro do dao.
-            Intent dados = getIntent();
-            if (dados.hasExtra("personagem")) {
-                Personagem personagem = (Personagem) dados.getSerializableExtra("personagem");
-                campoNome.setText(personagem.getNome());
-                campoAltura.setText(personagem.getAltura());
-                campoNascimento.setText(personagem.getNascimento());
-            } else{
+        Intent dados = getIntent();
+        if (dados.hasExtra(CHAVE_PERSONAGEM)) {
+            setTitle(TITULO_APPBAR_EDITAR_PERSONAGEM);    //edita informacoes.
+            personagem = (Personagem) dados.getSerializableExtra(CHAVE_PERSONAGEM);
+            preencheCampos(personagem);
+        } else {
+            setTitle(TITULO_APPBAR_NOVO_PERSONAGEM);
 
-                Personagem = new  Personagem();
-            }
+            personagem = new Personagem();
+        }
+    }
+
+    private void preencheCampos(Personagem personagem) {
+        campoNome.setText(personagem.getNome());
+        campoAltura.setText(personagem.getAltura());
+        campoNascimento.setText(personagem.getNascimento());
     }
 
     private void configBotao() {
         Button botaoSalvar = findViewById(R.id.button_salvar);      //config do botao para entender o comando disponivel para ele.
         botaoSalvar.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {   //chama uma view.
+                finalizarFormulario();
 
-                String nome = campoNome.getText().toString();
-                String altura = campoAltura.getText().toString();               //armazena informaçao dentro da variavel string.
-                String nascimento = campoNascimento.getText().toString();
-
-                Personagem personagemSalvo = new Personagem(nome,altura,nascimento);
-
-                //Usa o metodo salvar para armazenar o personagem nesse banco
-                dao.salva(personagemSalvo);
-                finish();
-
-
-                //seta as informaçoes.
-                personagemSalvo.setNome(nome);
-                personagemSalvo.setAltura(altura);
-                personagemSalvo.setNascimento(nascimento);
-                dao.editar(personagemSalvo);
 
             }
 
@@ -75,11 +72,37 @@ public class FormularioPersonagemActivity extends AppCompatActivity {
         });
     }
 
+    private void finalizarFormulario() {
+        preencherPersonagem();
+        if (personagem.IdValido()){
+            dao.editar(personagem);
+            finish();
+
+        } else {
+            dao.salva(personagem);
+        }
+        finish();
+    }
+
     private void inicializacaoCampos() {
         //Recebe os ID dos campos.
         campoNome = findViewById(R.id.edittext_nome);
         campoAltura = findViewById(R.id.edittext_altura);
         campoNascimento = findViewById(R.id.edittext_nascimento);
+    }
+
+    private void preencherPersonagem() {
+
+        String nome = campoNome.getText().toString();
+        String nascimento = campoNome.getText().toString();
+        String altura = campoNome.getText().toString();
+
+
+        personagem.setNome(nome);
+        personagem.setNascimento(nascimento);
+        personagem.setAltura(altura);
+
+
     }
 
 
