@@ -28,6 +28,7 @@ public class FormularioPersonagemActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_personagem);
         //indica o titulo.
@@ -38,6 +39,7 @@ public class FormularioPersonagemActivity extends AppCompatActivity {
     }
 
     private void carregaPersonagem() {
+
         //puxa as informacoes dentro do dao.
         Intent dados = getIntent();
         if (dados.hasExtra(CHAVE_PERSONAGEM)) {
@@ -91,11 +93,11 @@ public class FormularioPersonagemActivity extends AppCompatActivity {
         campoNascimento = findViewById(R.id.edittext_nascimento);
     }
 
-    private void preencherPersonagem() {
+    private void preencherPersonagem() { //passa as informacoes digitas que voce deseja.
 
         String nome = campoNome.getText().toString();
-        String nascimento = campoNome.getText().toString();
-        String altura = campoNome.getText().toString();
+        String nascimento = campoNascimento.getText().toString();
+        String altura = campoAltura.getText().toString();
 
 
         personagem.setNome(nome);
