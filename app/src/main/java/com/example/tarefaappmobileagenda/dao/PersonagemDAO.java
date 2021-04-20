@@ -14,6 +14,7 @@ public class PersonagemDAO {
     public void salva(Personagem personagemSalvo) {
         personagemSalvo.setId(contadorDeId);
         personagens.add(personagemSalvo);   //add personagens
+        contadorDeId++;
         atulizaId();
 
     }
@@ -32,7 +33,7 @@ public class PersonagemDAO {
 
     }
 
-    private Personagem buscaPersonagemId(Personagem personagem) {
+    private Personagem buscaPersonagemId(Personagem personagem) { //idenfica o posicionamento do personagem.
         for (Personagem p :
                 personagens) {
             if (p.getId() == personagem.getId()) {
@@ -47,5 +48,10 @@ public class PersonagemDAO {
         return new ArrayList<>(personagens);
     } //metodo de retorno.
 
-
+    public void remove(Personagem personagem){ //metodo para remover item dentro da classe de persistencia.
+        Personagem personagemDevolvido = buscaPersonagemId(personagem);
+        if (personagemDevolvido != null){
+            personagens.remove(personagemDevolvido);
+        }
+    }
 }
